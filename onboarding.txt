@@ -1,0 +1,110 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+
+import '../login&register_screen/register_screen.dart';
+
+class OnbSlider extends StatelessWidget {
+  static const String routeName = "/";
+
+  const OnbSlider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+
+    return Scaffold(
+
+      body: OnBoardingSlider(
+        pageBackgroundColor: Colors.black,
+        headerBackgroundColor: Colors.black,
+        finishButtonText: 'Finish',
+        centerBackground: true,
+        indicatorAbove:false ,
+        addController: false,
+        addButton: true,
+        hasFloatingButton: true, // --> button
+        finishButtonStyle: FinishButtonStyle(
+          backgroundColor: Color(0xffF6BD00),
+
+        ),
+
+        trailing: Text('Login', style: TextStyle(color: Colors.white)),
+        background: [
+          _buildBackgroundImage('assets/images/OnboardingPic/onboarding1.png', screenWidth, screenHeight),
+          _buildBackgroundImage('assets/images/OnboardingPic/onboarding2.png', screenWidth, screenHeight),
+          _buildBackgroundImage('assets/images/OnboardingPic/onboarding3.png', screenWidth, screenHeight),
+          _buildBackgroundImage('assets/images/OnboardingPic/onboarding4.png', screenWidth, screenHeight),
+          _buildBackgroundImage('assets/images/OnboardingPic/onboarding5.png', screenWidth, screenHeight),
+          _buildBackgroundImage('assets/images/OnboardingPic/onboarding6.png', screenWidth, screenHeight),
+        ],
+        totalPage: 6,
+        speed: 1.8,
+        pageBodies: [
+          _buildPageContent(
+            title: 'Find Your Next\n Favorite Movie Here',
+            description: 'Get access to a huge library of movies\n to suit all tastes. You will surely like it.',
+            screenHeight: screenHeight,
+          ),
+          _buildPageContent(title: 'Amazing Collection', description: 'Discover a variety of movies across genres.', screenHeight: screenHeight),
+          _buildPageContent(title: 'Watch Anytime', description: 'Enjoy your movies whenever you want.', screenHeight: screenHeight),
+          _buildPageContent(title: 'High Quality', description: 'Stream in HD without buffering.', screenHeight: screenHeight),
+          _buildPageContent(title: 'Personalized Experience', description: 'Movies recommended just for you.', screenHeight: screenHeight),
+          _buildPageContent(title: 'Join Now', description: 'Sign up today and start watching!', screenHeight: screenHeight),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBackgroundImage(String imagePath, double screenWidth, double screenHeight) {
+    return Container(
+      width: screenWidth,
+      height: screenHeight,
+      child: Image.asset(
+        imagePath,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  Widget _buildPageContent({required String title, required String description, required double screenHeight}) {
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+
+          children: <Widget>[
+            SizedBox(height: 500),
+            Column(
+              children: [
+
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: screenHeight * 0.035,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(.6),
+                    fontSize: screenHeight * 0.022,
+                  ),
+                ),
+
+              ],
+            ),
+            SizedBox(height: screenHeight * 0.05),
+          ],
+        ),
+      ),
+    );
+  }
+}
