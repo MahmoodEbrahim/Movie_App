@@ -1,18 +1,40 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:movies_app/firebase_file/firebase_manager.dart';
 import 'package:movies_app/homescreen.dart';
 import 'package:movies_app/login&register_screen/forget_password.dart';
 import 'package:movies_app/login&register_screen/register_screen.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
+import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../provider/user_provider.dart';
+
+class LoginScreen extends StatefulWidget {
   static const String routeName = "loginScreen";
 
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController paswordController = TextEditingController();
+  TextEditingController userController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  var formkey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
+    var userProvider=Provider.of<UserProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
@@ -31,6 +53,7 @@ class LoginScreen extends StatelessWidget {
                   height: 80,
                 ),
                 TextFormField(
+                  controller: emailController,
                   style: TextStyle(
                     color: Color(0xffF6BD00),
                   ),
@@ -66,6 +89,7 @@ class LoginScreen extends StatelessWidget {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: paswordController,
                   style: TextStyle(
                     color: Color(0xffF6BD00),
                   ),
@@ -106,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                 InkWell(
                   onTap: (){
                     Navigator.pushNamed(context, ForgetPassword.routeName);
-          
+
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -125,17 +149,59 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, Homescreen.routeName);
+                        FirebaseManager.login(
+                          emailController.text,
+                          paswordController.text,
+                              () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                backgroundColor: Colors.black12,
+                              ),
+                            );
+                          },
+                              () {
+                            Navigator.pop(context);
+                            userProvider.intiuser();// ده عشام يقرا معلومات اليوزر
+                            Navigator.pushNamedAndRemoveUntil(context, Homescreen.routeName,(route)=>false);
+                          },
+                              (message) {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Center(
+                                  child: Text("Login Failed",style: TextStyle(color: Colors.white),),
+                                ),
+                                content: Text("Erorr",style: TextStyle(color: Colors.white),),
+                                backgroundColor: Colors.grey,
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("OK"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+
                     },
                     child: Text(
                       "Login",
-                      style: TextStyle(color: Colors.black,fontSize: 20),
+                      style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                     style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        backgroundColor: Color(0xffF6BD00),
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      backgroundColor: Color(0xffF6BD00),
                     ),
                   ),
+
                 ),
                SizedBox(height: 15,),
                InkWell(
@@ -144,18 +210,18 @@ class LoginScreen extends StatelessWidget {
                  },
                  child: Text.rich(
                    textAlign: TextAlign.center,
-          
+
                    TextSpan(
                      children: [
                        TextSpan( text: "Don’t Have Account ?",style: TextStyle(color: Color(0xffFFFFFF),),),
                    TextSpan(text: "Create Account",style: TextStyle(color: Color(0xffF6BD00),fontSize: 18)
-          
-          
+
+
                  ),
                  ],
                )
                ),
-          
+
             ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -170,7 +236,8 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:[
@@ -210,12 +277,12 @@ class LoginScreen extends StatelessWidget {
                     onToggle: (index) {
                     },
                   ),
-          
+
                 )
-          
+
               ],
           ),
-          
+
               ),
         ),
       ),

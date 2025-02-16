@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/firebase_file/firebase_manager.dart';
 import 'package:movies_app/login&register_screen/login_screen.dart';
 import 'package:movies_app/tabs/profile_tab/editProfile_button.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/user_provider.dart';
 
 class ProfileTab extends StatefulWidget {
    ProfileTab({super.key});
-
   @override
   State<ProfileTab> createState() => _ProfileTabState();
 }
@@ -14,6 +17,8 @@ class _ProfileTabState extends State<ProfileTab> {
 
   @override
   Widget build(BuildContext context) {
+    var userProvider=Provider.of<UserProvider>(context);
+
     return Scaffold(
       backgroundColor: const Color(0xff121312),
       body: SafeArea(
@@ -34,7 +39,7 @@ class _ProfileTabState extends State<ProfileTab> {
                         children: [
                           Image.asset("assets/images/screenpic/gamer1.png",height: 120,width: 120,),
                           SizedBox(height: 20,),
-                          Text("John Safwat",style: TextStyle(color: Colors.white,fontSize: 20)),
+                          Text(userProvider.userModel!.name??"Null",style: TextStyle(color: Colors.white,fontSize: 20)),
                         SizedBox(height: 20,),
                         ],
                       ),
@@ -86,6 +91,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     SizedBox(
                       child: ElevatedButton(
                         onPressed: () {
+                          FirebaseManager.logout();
                           Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route)=>false);
                         },
                         child: Row(
