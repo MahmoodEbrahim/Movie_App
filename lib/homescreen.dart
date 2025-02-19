@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/tabs/browsea_tab.dart';
+import 'package:movies_app/tabs/BrowseT.dart';
+import 'package:movies_app/tabs/SearchT.dart';
 import 'package:movies_app/tabs/home_tab.dart';
 import 'package:movies_app/tabs/profile_tab/profile_tab.dart';
-import 'package:movies_app/tabs/search_tab.dart';
 
 class Homescreen extends StatefulWidget {
   static const String routeName = "Homescreen";
@@ -70,8 +70,8 @@ class _HomescreenState extends State<Homescreen> {
   }
   List<Widget> tabs=[
     HomeTab(),
-    BrowseaTab(),
     SearchTab(),
+    BrowseaTab(),
     ProfileTab(),
 
   ];

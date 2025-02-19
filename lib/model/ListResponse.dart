@@ -21,6 +21,7 @@ class Data {
   int? limit;
   int? pageNumber;
   List<Movies>? movies;
+
   Data({this.movieCount, this.limit, this.pageNumber, this.movies});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -47,7 +48,7 @@ class Movies {
   String? titleLong;
   String? slug;
   int? year;
-  double? rating;
+  double? rating; // rating as double
   int? runtime;
   List<String>? genres;
   String? summary;
@@ -66,33 +67,34 @@ class Movies {
   String? dateUploaded;
   int? dateUploadedUnix;
 
-  Movies(
-      {this.id,
-        this.url,
-        this.imdbCode,
-        this.title,
-        this.titleEnglish,
-        this.titleLong,
-        this.slug,
-        this.year,
-        this.rating,
-        this.runtime,
-        this.genres,
-        this.summary,
-        this.descriptionFull,
-        this.synopsis,
-        this.ytTrailerCode,
-        this.language,
-        this.mpaRating,
-        this.backgroundImage,
-        this.backgroundImageOriginal,
-        this.smallCoverImage,
-        this.mediumCoverImage,
-        this.largeCoverImage,
-        this.state,
-        this.torrents,
-        this.dateUploaded,
-        this.dateUploadedUnix});
+  Movies({
+    this.id,
+    this.url,
+    this.imdbCode,
+    this.title,
+    this.titleEnglish,
+    this.titleLong,
+    this.slug,
+    this.year,
+    this.rating,
+    this.runtime,
+    this.genres,
+    this.summary,
+    this.descriptionFull,
+    this.synopsis,
+    this.ytTrailerCode,
+    this.language,
+    this.mpaRating,
+    this.backgroundImage,
+    this.backgroundImageOriginal,
+    this.smallCoverImage,
+    this.mediumCoverImage,
+    this.largeCoverImage,
+    this.state,
+    this.torrents,
+    this.dateUploaded,
+    this.dateUploadedUnix,
+  });
 
   Movies.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -103,9 +105,12 @@ class Movies {
     titleLong = json['title_long'];
     slug = json['slug'];
     year = json['year'];
-    rating = json['rating'];
+
+    // Handle the case where rating can be either int or double
+    rating = json['rating'] is int ? (json['rating'] as int).toDouble() : json['rating']?.toDouble();
+
     runtime = json['runtime'];
-    genres = json['genres'].cast<String>();
+    genres = json['genres']?.cast<String>();
     summary = json['summary'];
     descriptionFull = json['description_full'];
     synopsis = json['synopsis'];
@@ -121,13 +126,12 @@ class Movies {
     if (json['torrents'] != null) {
       torrents = <Torrents>[];
       json['torrents'].forEach((v) {
-        torrents!.add(new Torrents.fromJson(v));
+        torrents!.add(Torrents.fromJson(v));
       });
     }
     dateUploaded = json['date_uploaded'];
     dateUploadedUnix = json['date_uploaded_unix'];
   }
-
 }
 
 class Torrents {
@@ -199,6 +203,5 @@ class Meta {
     apiVersion = json['api_version'];
     executionTime = json['execution_time'];
   }
-
 
 }

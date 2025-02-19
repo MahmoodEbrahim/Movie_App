@@ -5,8 +5,8 @@ class BrowseaTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.yellow,
+    return Scaffold(
+      backgroundColor: Color(0xff121312),
     );
   }
 }
