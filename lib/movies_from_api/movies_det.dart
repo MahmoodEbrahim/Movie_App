@@ -268,6 +268,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
               ],
             ),
+            C
 
           ],
         ),
