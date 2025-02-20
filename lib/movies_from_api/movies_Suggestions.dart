@@ -22,10 +22,8 @@ class _MoviesSuggestionsState extends State<MoviesSuggestions> {
 
   void fetchSuggestedMovies() async {
     try {
-      // استدعاء الدالة التي تُرجع ListResponse
       var response = await ApiManager.getMovieSuggestions(widget.movieId);
 
-      // التحقق إذا كانت الاستجابة تحتوي على بيانات وصحيحة
       if (response != null && response is ListResponse) {
         if (response.data != null && response.data!.movies != null) {
           setState(() {
@@ -52,11 +50,10 @@ class _MoviesSuggestionsState extends State<MoviesSuggestions> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200, // تحديد ارتفاع مناسب للصف
+      height: 250,
       child: isLoading
           ? const Center(child: CircularProgressIndicator())
           : suggestedMovies.isEmpty
@@ -67,29 +64,33 @@ class _MoviesSuggestionsState extends State<MoviesSuggestions> {
         itemBuilder: (context, index) {
           final movie = suggestedMovies[index];
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                   child: Image.network(
                     movie.mediumCoverImage ?? '',
-                    width: 120,
-                    height: 160,
+                    width: 146,
+                    height: 200,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.broken_image, size: 120),
+                    const Icon(Icons.broken_image, size: 160),
                   ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 10),
                 SizedBox(
-                  width: 120,
+                  width: 160,
                   child: Text(
                     movie.title ?? 'Unknown',
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],

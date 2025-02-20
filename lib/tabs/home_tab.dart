@@ -27,8 +27,9 @@ class _HomeTabState extends State<HomeTab> {
 
   Widget buildMovieSection(String genre, int movieId) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,7 +38,7 @@ class _HomeTabState extends State<HomeTab> {
                 padding: const EdgeInsets.all(9.0),
                 child: Text(
                   genre,
-                  style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 18),
+                  style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 22),
                 ),
               ),
               Padding(
@@ -49,7 +50,6 @@ class _HomeTabState extends State<HomeTab> {
               ),
             ],
           ),
-          const SizedBox(height: 5),
           MoviesSuggestions(movieId: movieId),
         ],
       ),
