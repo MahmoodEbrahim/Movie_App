@@ -6,6 +6,7 @@ class ApiManager {
  static const String baseUrl = "yts.mx";
  static const String movieListEndpoint = "/api/v2/list_movies.json";
  static const String movieDetailsEndpoint = "/api/v2/movie_details.json";
+ static const String MovieSuggestions="/api/v2/movie_suggestions.json";
 
 
  static Future<ListResponse?> getMovies() async {
@@ -44,4 +45,24 @@ class ApiManager {
    print("Error fetching movie details: $e");
    return null;
   }
- }}
+ }
+
+ static Future<ListResponse?> getMovieSuggestions(int movieId) async {
+  try {
+   final Uri url = Uri.parse("https://yts.mx/api/v2/movie_suggestions.json?movie_id=$movieId");
+   final response = await http.get(url);
+
+   if (response.statusCode == 200) {
+    final jsonData = json.decode(response.body);
+    return ListResponse.fromJson(jsonData); // استرجاع ListResponse بدلاً من Movies
+   } else {
+    print("❌ Error: Failed to load suggestions. Status: ${response.statusCode}");
+    return null;
+   }
+  } catch (e) {
+   print("❌ Exception: $e");
+   return null;
+  }
+ }
+
+}
