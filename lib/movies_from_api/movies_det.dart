@@ -13,6 +13,7 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   Movies? movieDetails;
+  Torrents? moviesD2;
   bool isLoading = true;
 
   @override
@@ -173,7 +174,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       ),
                                       child:
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 18.0,),
                                         child: Row(
                                           children: [
                                             Icon(Icons.timelapse,color: Colors.yellow,size: 25,),
@@ -182,7 +183,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                             Text(
                                               " ${movieDetails!.runtime?.toString() ?? 'Unknown'}",
                                               style: const TextStyle(
-                                                fontSize: 24,
+                                                fontSize: 22,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -268,7 +269,100 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
               ],
             ),
-            C
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Screen Shots",style: TextStyle(
+                    color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold
+                ),),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 2000,
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 180,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(movieDetails!.backgroundImageOriginal ?? ""),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.circular(20), //
+                                    ),
+                                  ),
+                                  SizedBox(height: 13,),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 180,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(movieDetails!.backgroundImageOriginal ?? ""),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.circular(20), //
+                                    ),
+                                  ),
+                                  SizedBox(height: 13,),
+
+                                  Container(
+                                    width: double.infinity,
+                                    height: 180,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(movieDetails!.backgroundImageOriginal ?? ""),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.circular(20), //
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        SizedBox(height: 14,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("Similar",style:
+                            TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                            ),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+
+                                  ],
+                                )
+                              ],
+                            )
+
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+
 
           ],
         ),
