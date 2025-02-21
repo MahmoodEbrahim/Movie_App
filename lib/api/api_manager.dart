@@ -65,4 +65,22 @@ class ApiManager {
   }
  }
 
+ static Future<MovieParentalGuides?> getMovieParentalGuides(int movieId) async {
+  try {
+   final Uri url = Uri.parse("https://yts.mx/api/v2/movie_parental_guides.json?movie_id=$movieId");
+   final response = await http.get(url);
+
+   if (response.statusCode == 200) {
+    final jsonData = json.decode(response.body);
+    return MovieParentalGuides.fromJson(jsonData['data']); // تحويل البيانات إلى نموذج MovieParentalGuides
+   } else {
+    print("❌ Error: Failed to load parental guides. Status: ${response.statusCode}");
+    return null;
+   }
+  } catch (e) {
+   print("❌ Exception: $e");
+   return null;
+  }
+ }
+
 }

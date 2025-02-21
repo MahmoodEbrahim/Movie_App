@@ -21,7 +21,6 @@ class Data {
   int? limit;
   int? pageNumber;
   List<Movies>? movies;
-
   Data({this.movieCount, this.limit, this.pageNumber, this.movies});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -204,4 +203,25 @@ class Meta {
     executionTime = json['execution_time'];
   }
 
+}
+
+class MovieParentalGuides {
+  String? contentRating;
+  String? ratingDescription;
+  String? country;
+  String? advisory;
+
+  MovieParentalGuides({
+    this.contentRating,
+    this.ratingDescription,
+    this.country,
+    this.advisory,
+  });
+
+  MovieParentalGuides.fromJson(Map<String, dynamic> json) {
+    contentRating = json['content_rating'];
+    ratingDescription = json['rating_description'];
+    country = json['country'];
+    advisory = json['advisory'];
+  }
 }

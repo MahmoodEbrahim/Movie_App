@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/api/api_manager.dart';
 import 'package:movies_app/model/ListResponse.dart';
 
+import 'movies_det.dart';
+
 class MoviesSuggestions extends StatefulWidget {
   final int movieId;
   const MoviesSuggestions({super.key, required this.movieId});
@@ -65,35 +67,50 @@ class _MoviesSuggestionsState extends State<MoviesSuggestions> {
           final movie = suggestedMovies[index];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    movie.mediumCoverImage ?? '',
-                    width: 146,
-                    height: 200,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.broken_image, size: 160),
+            child: GestureDetector(
+              onTap: () {
+                int? movieId =
+                    movie.id;
+                print("Selected Movie ID: $movieId");
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        MovieDetailsScreen(movieId: movieId!),
                   ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: 160,
-                  child: Text(
-                    movie.title ?? 'Unknown',
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      movie.mediumCoverImage ?? '',
+                      width: 146,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.broken_image, size: 160),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 160,
+                    child: Text(
+                      movie.title ?? 'Unknown',
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
