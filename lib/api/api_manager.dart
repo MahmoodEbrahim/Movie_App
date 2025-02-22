@@ -83,4 +83,22 @@ class ApiManager {
   }
  }
 
-}
+ static Future<List<Movies>> getMoviesByGenre(String genre) async {
+ try {
+ Uri url = Uri.https(baseUrl, "/api/v2/list_movies.json", {"genre": genre});
+ var response = await http.get(url);
+
+ if (response.statusCode == 200) {
+ var jsonData = jsonDecode(response.body);
+ var moviesData = jsonData['data']['movies'] as List;
+ return moviesData.map((movie) => Movies.fromJson(movie)).toList();
+ }
+ return [];
+ } catch (e) {
+ print("Error fetching movies: $e");
+ return [];
+ }
+ }
+ }
+
+
